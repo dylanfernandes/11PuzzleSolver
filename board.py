@@ -17,3 +17,21 @@ class Board:
 
     def printBoard(self):
         print self.elements
+
+    def getColumn(self, num):
+        column = []
+        index = num
+        print "index: " + `index`
+        print "Length: " + `len(self.elements)`
+        print "Element: " + `self.elements[4]`
+        for i in range(0,3): #3 values per column
+            column.insert(i, self.elements[index])
+            index = index + 4 #next column starts 4 elements later
+        return column
+
+    def getRow(self, num):
+        row = []
+        for i in range(0,4):
+            row.insert(i, self.elements[num+i])
+        return row
+
