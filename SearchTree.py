@@ -6,6 +6,7 @@ class TreeNode:
         self.parent = None
         self.children = []
         self.heuristic_value = 0
+        self.total_cost_value = 0
 
     def set_data(self, data):
         self.data = data
@@ -14,8 +15,13 @@ class TreeNode:
         return self.data
 
     def create_and_add_child(self, data):
+        self.create_and_add_child_with_cost(data, 0, 0)
+
+    def create_and_add_child_with_cost(self, data, heuristic_value, cost):
         tree_node = TreeNode(data)
         tree_node.set_parent(self)
+        tree_node.set_heuristic_value(heuristic_value)
+        tree_node.set_total_cost_value(self.total_cost_value + cost)
         self.children.append(tree_node)
 
     def add_child(self, tree_node):
@@ -35,6 +41,12 @@ class TreeNode:
 
     def get_heuristic_value(self):
         return self.heuristic_value
+
+    def set_total_cost_value(self, total_cost_value):
+        self.total_cost_value = total_cost_value
+
+    def get_total_cost_value(self):
+        return self.total_cost_value
 
     def set_parent(self, parent):
         self.parent = parent
