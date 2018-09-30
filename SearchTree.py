@@ -1,14 +1,11 @@
 
 class TreeNode:
 
-    def __init__(self, data, parent, left_child, right_child):
+    def __init__(self, data):
         self.data = data
-        self.parent = parent
-        self.left_child = left_child
-        self.right_child = right_child
-
-    def __init__(self, data, parent):
-        self.__init__(self, data, parent, None, None)
+        self.parent = None
+        self.children = []
+        self.heuristic_value = 0
 
     def set_data(self, data):
         self.data = data
@@ -16,17 +13,31 @@ class TreeNode:
     def get_data(self):
         return self.data
 
-    def set_left_child(self, left_child):
-        self.left_child = left_child
+    def create_and_add_child(self, data):
+        tree_node = TreeNode(data)
+        tree_node.set_parent(self)
+        self.children.append(tree_node)
 
-    def get_left_child(self):
-        return self.left_child
+    def add_child(self, tree_node):
+        tree_node.set_parent(self)
+        self.children.append(tree_node)
 
-    def set_right_child(self, right_child):
-        self.right_child = right_child
+    def add_children(self, tree_nodes):
+        for tree_node in tree_nodes:
+            tree_node.set_parent(self)
+        self.children.extend(tree_nodes)
 
-    def get_right_child(self):
-        return self.right_child
+    def get_children(self):
+        return self.children
+
+    def set_heuristic_value(self, heuristic_value):
+        self.heuristic_value = heuristic_value
+
+    def get_heuristic_value(self):
+        return self.heuristic_value
+
+    def set_parent(self, parent):
+        self.parent = parent
 
     def get_parent(self):
         return self.parent
@@ -34,20 +45,21 @@ class TreeNode:
     def __str__(self):
         return self.data.__str__()
 
-    def get_path_to_node(self, tree_node_to_find):
-        return self._get_path_to_node(self, tree_node_to_find)
+    # Comparision methods - based on heuristic_value
+    def __lt__(self, other):
+        return self.heuristic_value < other.get_heursitic_value()
 
-    # Gets the shortest path to the tree node
-    def _get_path_to_node(self, curr_tree_node, tree_node_to_find):
-        if curr_tree_node is tree_node_to_find:
-            return curr_tree_node.__str__()
-        elif curr_tree_node is None:
-            path_left = curr_tree_node.__str__() + self._get_path_to_node(curr_tree_node.left_child, tree_node_to_find)
-            path_right = curr_tree_node.__str__() + self._get_path_to_node(curr_tree_node.right_child, tree_node_to_find)
-            if len(path_left) > len(path_right):
-                return path_left
-            else:
-                return path_right
-        else:
-            return ""
+    def __le__(self, other):
+        return self.heuristic_value <= other.get_heursitic_value()
 
+    def __gt__(self, other):
+        return self.heuristic_value > other.get_heursitic_value()
+
+    def __ge__(self, other):
+        return self.heuristic_value >= other.get_heursitic_value()
+
+    def __eq__(self, other):
+        return self.heuristic_value == other.get_heursitic_value()
+
+    def __ne__(self, other):
+        return self.heuristic_value != other.get_heursitic_value()
