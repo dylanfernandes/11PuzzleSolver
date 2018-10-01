@@ -24,10 +24,18 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(col[1], 5)
         self.assertEqual(col[2], 9)
 
+    def testPossibleMoves(self):
+        moves = self.board.getMoves()
+        self.assertEqual(len(moves), 3)
+        self.assertEqual(moves[0], 4)
+        self.assertEqual(moves[1], 5)
+        self.assertEqual(moves[2], 9)
+
+    def testMakeMove(self):
+        self.assertEqual(self.board.makeMove(4), True)
+        self.assertEqual(self.board.elements, [8,1,2,3,0,5,6,7,4,9,10,11])
+        self.assertEqual(self.board.makeMove(8), True)
+        self.assertEqual(self.board.elements, [8,1,2,3,4,5,6,7,0,9,10,11])
 
 if __name__ == '__main__':
         unittest.main()
-#board = Board(8,1,2,3,4,5,6,7,0,9,10,11)
-#board.printBoard()
-#print board.getColumn(0)
-#print board.getRow(0)
