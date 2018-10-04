@@ -58,20 +58,6 @@ class TreeNode:
         return self.data.__str__()
 
     # Comparision methods - based on heuristic_value
-    def __lt__(self, other):
-        return self.heuristic_value < other.get_heursitic_value()
-
-    def __le__(self, other):
-        return self.heuristic_value <= other.get_heursitic_value()
-
-    def __gt__(self, other):
-        return self.heuristic_value > other.get_heursitic_value()
-
-    def __ge__(self, other):
-        return self.heuristic_value >= other.get_heursitic_value()
-
-    def __eq__(self, other):
-        return self.heuristic_value == other.get_heursitic_value()
-
-    def __ne__(self, other):
-        return self.heuristic_value != other.get_heursitic_value()
+    def __cmp__(self, other):
+        return (self.heuristic_value > other.get_heursitic_value()) \
+               - (self.heuristic_value < other.get_heursitic_value())
