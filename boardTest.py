@@ -25,7 +25,7 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(col[2], 9)
 
     def testPossibleMoves(self):
-        moves = self.board.getMoves()
+        moves = self.board.determineMoves()
         self.assertEqual(len(moves), 3)
         self.assertEqual(moves[0], 4)
         self.assertEqual(moves[1], 5)

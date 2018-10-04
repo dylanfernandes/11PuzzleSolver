@@ -21,7 +21,7 @@ class Board:
         self.elements.insert(10 ,e10)
         self.elements.insert(11 ,e11)
         self.findSpace()
-        self.getMoves()
+        self.determineMoves()
 
     def findSpace(self):
         index = 0
@@ -32,7 +32,7 @@ class Board:
         self.spacePos = index
         return index
 
-    def getMoves(self):
+    def determineMoves(self):
         self.moves = []
         left = False
         right = False
@@ -72,9 +72,9 @@ class Board:
         if location in self.moves:
             temp = self.elements[location]
             self.elements[location] = self.SPACETOKEN
-            self.elements[self.spacePos]  = temp
+            self.elements[self.spacePos] = temp
             self.spacePos = location
-            self.getMoves()
+            self.determineMoves()
             return True
         return False
 
