@@ -37,5 +37,20 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(self.board.makeMove(8), True)
         self.assertEqual(self.board.elements, [8,1,2,3,4,5,6,7,0,9,10,11])
 
+    def testGetElementRow(self):
+        row = self.board.getElementRow(8)
+        self.assertEqual(len(row), 4)
+        self.assertEqual(row[0], 8)
+        self.assertEqual(row[1], 1)
+        self.assertEqual(row[2], 2)
+        self.assertEqual(row[3], 3)
+
+    def testGetElementColumn(self):
+        col = self.board.getElementColumn(8)
+        self.assertEqual(len(col), 3)
+        self.assertEqual(col[0], 8)
+        self.assertEqual(col[1], 4)
+        self.assertEqual(col[2], 0)
+
 if __name__ == '__main__':
         unittest.main()
