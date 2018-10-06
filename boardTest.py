@@ -36,6 +36,7 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(self.board.elements, [8,1,2,3,0,5,6,7,4,9,10,11])
         self.assertEqual(self.board.makeMove(8), True)
         self.assertEqual(self.board.elements, [8,1,2,3,4,5,6,7,0,9,10,11])
+        self.assertEqual(self.board.makeMove(1), False)
 
 if __name__ == '__main__':
         unittest.main()
