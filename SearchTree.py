@@ -48,6 +48,13 @@ class TreeNode:
     def get_total_cost_value(self):
         return self.total_cost_value
 
+    def get_algo_a_value(self):
+        """
+        Represents the function f(n) = h(n) + g(n)
+        :return: the heuristic value plus the total cost of this node.
+        """
+        return self.total_cost_value + self.heuristic_value
+
     def set_parent(self, parent):
         self.parent = parent
 
@@ -59,5 +66,5 @@ class TreeNode:
 
     # Comparision methods - based on heuristic_value
     def __cmp__(self, other):
-        return (self.heuristic_value > other.get_heursitic_value()) \
-               - (self.heuristic_value < other.get_heursitic_value())
+        return (self.get_algo_a_value() > other.get_algo_a_value()) \
+               - (self.get_algo_a_value() < other.get_algo_a_value())

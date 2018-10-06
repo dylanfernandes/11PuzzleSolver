@@ -95,7 +95,10 @@ class Board:
     def getRow(self, num):
         row = []
         start = num * self.ROWSIZE
-        for i in range(0,self.ROWSIZE):
+        for i in range(0, self.ROWSIZE):
             row.insert(i, self.elements[start+i])
         return row
+
+    def getElements(self):
+        return self.elements
 
