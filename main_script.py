@@ -14,7 +14,8 @@ ERRONEOUS_HEURISTIC = sys.maxint
 
 def main():
     """ Main code goes here"""
-    board = Board(8, 1, 2, 3, 4, 5, 6, 7, 0, 9, 10, 11)
+    vals = [8, 1, 2, 3, 4, 5, 6, 7, 0, 9, 10, 11]
+    board = Board(vals)
     best_first_search(board, heuristic_2)
     # print(board.determineMoves())
     # board.printBoard()
@@ -94,17 +95,21 @@ def heuristic_2(puzzle, move=-1):
 
 
 def depth_first_search(puzzle):
-    open_list = []
+    open_list = [puzzle]
     closed_list = []
     while not open_list:
         current = open_list.pop(0)
-        if tree_node_to_check.get_heuristic_value() == GOAL_STATE:
+        if current.printBoard() == GOAL_STATE:
             # get solution path to node
             print("SOLVED!")
             puzzle.printBoard()
             print("Solution " + str(get_solution_path(tree_node_to_check)))
         else:
             #create nodes for each valid moves
+            configs = []
+            moves = puzzle.determineMoves()
+            #for move in moves:
+                #configs.append()
             closed_list.append(current)
             #delete children already in open or closed
             #add other children at start of open
