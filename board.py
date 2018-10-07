@@ -7,21 +7,11 @@ class Board:
     elements = []
     spacePos = 0
 
-    def __init__(self, e0 = 0, e1 = 0, e2 = 0, e3 = 0, e4 = 0, e5 = 0, e6 = 0, e7 = 0, e8 = 0, e9 = 0, e10 = 0, e11 = 0):
-        self.elements.insert(0 ,e0)
-        self.elements.insert(1 ,e1)
-        self.elements.insert(2 ,e2)
-        self.elements.insert(3 ,e3)
-        self.elements.insert(4 ,e4)
-        self.elements.insert(5 ,e5)
-        self.elements.insert(6 ,e6)
-        self.elements.insert(7 ,e7)
-        self.elements.insert(8 ,e8)
-        self.elements.insert(9 ,e9)
-        self.elements.insert(10 ,e10)
-        self.elements.insert(11 ,e11)
-        self.findSpace()
-        self.determineMoves()
+    def __init__(self, config):
+        self.elements = config
+        if config and len(config) == self.SIZE:
+            self.findSpace()
+            self.determineMoves()
 
     def findSpace(self):
         index = 0
@@ -78,6 +68,13 @@ class Board:
             return True
         return False
 
+    def getMoveConfig(self, location):
+        if location in self.moves:
+            config = self.elements[:]
+            temp = config[location]
+            config[location] = self.SPACETOKEN
+            config[self.spacePos] = temp
+        return Board(config)
 
     def printBoard(self):
         print self.elements
