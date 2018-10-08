@@ -1,27 +1,30 @@
+from copy import deepcopy
+
 class Board:
     SIZE = 12
     ROWSIZE = 4
     COLSIZE = 3
     SPACETOKEN = 0
-    moves = []
-    elements = []
-    spacePos = 0
 
     def __init__(self, e0 = 0, e1 = 0, e2 = 0, e3 = 0, e4 = 0, e5 = 0, e6 = 0, e7 = 0, e8 = 0, e9 = 0, e10 = 0, e11 = 0):
-        self.elements.insert(0 ,e0)
-        self.elements.insert(1 ,e1)
-        self.elements.insert(2 ,e2)
-        self.elements.insert(3 ,e3)
-        self.elements.insert(4 ,e4)
-        self.elements.insert(5 ,e5)
-        self.elements.insert(6 ,e6)
-        self.elements.insert(7 ,e7)
-        self.elements.insert(8 ,e8)
-        self.elements.insert(9 ,e9)
-        self.elements.insert(10 ,e10)
-        self.elements.insert(11 ,e11)
+        self.elements = [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11]
+        self.moves = []
+        self.spacePos = 0
         self.findSpace()
         self.determineMoves()
+
+    def __deepcopy__(self, memodict={}):
+        """
+        Returns a deep copy of the board
+        :param memodict: mandatory memo parameter
+        :return: a new board with the same piece arrangement as this one
+        """
+        newBoard = Board()
+        newBoard.elements = deepcopy(self.elements)
+        newBoard.findSpace()
+        newBoard.determineMoves()
+        return newBoard
+
 
     def findSpace(self):
         index = 0
@@ -111,4 +114,10 @@ class Board:
 
     def getElements(self):
         return self.elements
+
+    # Gets the symbol corresponding to the input element value
+    def getElementLetter(self, elVal):
+        index = self.elements.index(elVal)
+        return ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'][index]
+
 

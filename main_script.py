@@ -1,5 +1,6 @@
 import heapq
 import sys
+from copy import deepcopy
 from SearchTree import TreeNode
 from board import Board
 
@@ -36,7 +37,7 @@ def heuristic_1(puzzle, move=-1):
     return ERRONEOUS_HEURISTIC
 
 
-def heuristic_2(puzzle, move=-1):
+def heuristic_2(puzzle):
     """
     This heuristic does the following:
     For each piece, it determines the number of pieces currently adjacent to it that are
@@ -47,9 +48,6 @@ def heuristic_2(puzzle, move=-1):
     :return: the heuristic value, which is the total number of pieces that are not in their correct positions.
     """
     heuristic_value = 0
-    # Give the option of calculating the heuristic value without making a move
-    if move >= 0:
-        puzzle.makeMove(move)
 
     for element in puzzle.getElements():
         # Get the containing row and column of the current element
@@ -111,11 +109,11 @@ def search_with_priority(puzzle, heuristic_func, cost_per_move):
     closed_list = []
 
     # Form priority queue
-    open_list = []
-    open_list_pq = heapq.heapify(open_list)
+    open_list_pq = []
+    heapq.heapify(open_list_pq)
 
     # Form first tree node and add it to queue to begin
-    search_tree = TreeNode(0)
+    search_tree = TreeNode((0, puzzle.getElementLetter(0), puzzle))
     heuristic_value_root = heuristic_func(puzzle)
     search_tree.set_heuristic_value(heuristic_value_root)
     heapq.heappush(open_list_pq, search_tree)
@@ -126,7 +124,8 @@ def search_with_priority(puzzle, heuristic_func, cost_per_move):
         tree_node_to_check = heapq.heappop(open_list_pq)
         closed_list.append(tree_node_to_check)
 
-        puzzle.makeMove(tree_node_to_check.get_data())
+        # The first element of the data tuple is numerical value of the move
+        puzzle = tree_node_to_check.get_data()[2]
 
         # Find better way to check goal state
         if tree_node_to_check.get_heuristic_value() == GOAL_STATE:
@@ -139,33 +138,32 @@ def search_with_priority(puzzle, heuristic_func, cost_per_move):
             # clear open list to end loop
             while len(open_list_pq) > 0:
                 heapq.heappop(open_list_pq)
-
-            return None  # the solution
         else:
 
             # Find add add possible puzzle configs as children to tree_node_to_check here
             # Also use heuristic_func to set their heuristic values and set cost as well
             possible_moves = puzzle.determineMoves()
             for move in possible_moves:
-                heuristic_value = heuristic_func(puzzle, move)
-                tree_node_to_check.create_and_add_child_with_cost(move, heuristic_value, cost_per_move)
+                puzzle_with_move = deepcopy(puzzle)
+                puzzle_with_move.makeMove(move)
+                heuristic_value = heuristic_func(puzzle_with_move)
+                move_tuple = (move, puzzle.getElementLetter(move), puzzle_with_move)
+                tree_node_to_check.create_and_add_child_with_cost(move_tuple, heuristic_value, cost_per_move)
 
-            for child in tree_node_to_check.get_children:
+            for child in tree_node_to_check.get_children():
                 heapq.heappush(open_list_pq, child)
 
             if len(open_list_pq) == 0:
                 print("Solution not found!")
-                return None
 
 
-# NOTE: CHANGE TO HAVE STRING REP OF ITEMS
 # go up the parents and put them in array
 def get_solution_path(leaf_node):
     solution_path = []
     if len(leaf_node.get_children()) == 0:
         curr_tree_node = leaf_node
         while curr_tree_node is not None:
-            solution_path.insert(0, curr_tree_node)
+            solution_path.insert(0, curr_tree_node.get_data()[1])
             curr_tree_node = curr_tree_node.get_parent()
     return solution_path
 
