@@ -53,8 +53,8 @@ def heuristic_2(puzzle, move=-1):
 
     for element in puzzle.getElements():
         # Get the containing row and column of the current element
-        element_row = puzzle.getRow(element)
-        element_col = puzzle.getColumn(element)
+        element_row = puzzle.getElementRow(element)
+        element_col = puzzle.getElementColumn(element)
 
         element_row_index = element_row.index(element)
         element_col_index = element_col.index(element)

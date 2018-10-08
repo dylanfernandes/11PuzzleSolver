@@ -82,7 +82,7 @@ class Board:
     def printBoard(self):
         print self.elements
 
-    #index starts at 0
+    #Takes index as parameter and returns the corresponding row,index starts at 0
     def getColumn(self, num):
         column = []
         index = num
@@ -91,13 +91,23 @@ class Board:
             index = index + self.ROWSIZE #next column starts 4 elements later
         return column
 
-    #index sarts at 0
+    #Takes index as parameter and returns the corresponding row, index sarts at 0
     def getRow(self, num):
         row = []
         start = num * self.ROWSIZE
         for i in range(0, self.ROWSIZE):
             row.insert(i, self.elements[start+i])
         return row
+
+    def getElementRow(self, elVal):
+        ind = self.elements.index(elVal)
+        elRow = ind / (self.ROWSIZE - 1)
+        return self.getRow(elRow)
+
+    def getElementColumn(self, elVal):
+        ind = self.elements.index(elVal)
+        elCol = ind % (self.COLSIZE - 1)
+        return self.getColumn(elCol)
 
     def getElements(self):
         return self.elements
