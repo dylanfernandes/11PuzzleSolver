@@ -58,5 +58,12 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(config.elements, [8,1,2,3,0,5,6,7,4,9,10,11])
         self.assertEqual(config.spacePos, 4)
 
+    def testGetAllConfigs(self):
+        configs = self.board.getAllConfigs()
+        self.assertEqual(len(configs), 3)
+        self.assertEqual(configs[0].elements, [8,1,2,3,0,5,6,7,4,9,10,11])
+        self.assertEqual(configs[1].elements, [8,1,2,3,4,0,6,7,5,9,10,11])
+        self.assertEqual(configs[2].elements, [8,1,2,3,4,5,6,7,9,0,10,11])
+
 if __name__ == '__main__':
         unittest.main()

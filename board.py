@@ -76,6 +76,13 @@ class Board:
             config[self.spacePos] = temp
         return Board(config)
 
+    def getAllConfigs(self):
+        configs = []
+        for move in self.moves:
+            configs.append(self.getMoveConfig(move))
+        return configs
+
+
     def printBoard(self):
         print self.elements
 
