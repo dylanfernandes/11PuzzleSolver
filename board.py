@@ -6,12 +6,11 @@ class Board:
     COLSIZE = 3
     SPACETOKEN = 0
 
-    def __init__(self, e0 = 0, e1 = 0, e2 = 0, e3 = 0, e4 = 0, e5 = 0, e6 = 0, e7 = 0, e8 = 0, e9 = 0, e10 = 0, e11 = 0):
-        self.elements = [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11]
-        self.moves = []
-        self.spacePos = 0
-        self.findSpace()
-        self.determineMoves()
+    def __init__(self, config):
+        self.elements = config
+        if config and len(config) == self.SIZE:
+            self.findSpace()
+            self.determineMoves()
 
     def __deepcopy__(self, memodict={}):
         """
@@ -80,6 +79,20 @@ class Board:
             self.determineMoves()
             return True
         return False
+
+    def getMoveConfig(self, location):
+        if location in self.moves:
+            config = self.elements[:]
+            temp = config[location]
+            config[location] = self.SPACETOKEN
+            config[self.spacePos] = temp
+        return Board(config)
+
+    def getAllConfigs(self):
+        configs = []
+        for move in self.moves:
+            configs.append(self.getMoveConfig(move))
+        return configs
 
 
     def printBoard(self):
