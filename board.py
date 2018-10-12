@@ -90,7 +90,7 @@ class Board:
         column = []
         index = num
         for i in range(0,self.COLSIZE): #3 values per column
-            column.insert(i, self.elements[index])
+            column.append(self.elements[index])
             index = index + self.ROWSIZE #next column starts 4 elements later
         return column
 
@@ -99,17 +99,17 @@ class Board:
         row = []
         start = num * self.ROWSIZE
         for i in range(0, self.ROWSIZE):
-            row.insert(i, self.elements[start+i])
+            row.append(self.elements[start+i])
         return row
 
     def getElementRow(self, elVal):
         ind = self.elements.index(elVal)
-        elRow = ind / (self.ROWSIZE - 1)
+        elRow = ind / (self.ROWSIZE)
         return self.getRow(elRow)
 
     def getElementColumn(self, elVal):
         ind = self.elements.index(elVal)
-        elCol = ind % (self.COLSIZE - 1)
+        elCol = ind % (self.ROWSIZE)
         return self.getColumn(elCol)
 
     def getElements(self):

@@ -52,5 +52,6 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(col[1], 4)
         self.assertEqual(col[2], 0)
 
+
 if __name__ == '__main__':
         unittest.main()

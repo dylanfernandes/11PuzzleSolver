@@ -88,7 +88,7 @@ def heuristic_2(puzzle):
             if element_col[bot_index] != element + puzzle.ROWSIZE:
                 heuristic_value += 1
 
-        return heuristic_value
+    return heuristic_value
 
 
 def depth_first_search():
@@ -121,6 +121,7 @@ def search_with_priority(puzzle, heuristic_func, cost_per_move):
     # Game loop
     while len(open_list_pq) > 0:
 
+        print "HERE!"
         tree_node_to_check = heapq.heappop(open_list_pq)
         closed_list.append(tree_node_to_check)
 
