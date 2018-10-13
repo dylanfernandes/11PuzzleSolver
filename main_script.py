@@ -98,19 +98,19 @@ def depth_first_search(puzzle):
     open_list = [puzzle]
     closed_list = []
     while len(open_list) > 0:
-        print "In while loop"
         current = open_list.pop(0)
+        current.printBoard()
         if current.elements == GOAL_STATE:
             # get solution path to node
             print("SOLVED!")
-            puzzle.printBoard()
+            current.printBoard()
             #print("Solution " + str(get_solution_path(tree_node_to_check)))
             return True
         else:
             #create nodes for each valid moves
             configs = puzzle.getAllConfigs()
             for config in configs:
-                if not(isInList(config, open_list) and isInList(config, closed_list)):
+                if not(isInList(config, open_list) or isInList(config, closed_list)):
                     open_list.insert(0, config)
             closed_list.append(current)
             #delete children already in open or closed
