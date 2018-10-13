@@ -6,6 +6,12 @@ from datetime import datetime
 
 class SearchTests(unittest.TestCase):
 
+    # Constants
+    GOAL_STATE_HEURISTIC_VAL = 0
+    GOAL_STATE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]
+    BOARD_TUPLE_INDEX = 2
+
+    # Test variables
     valid_board_1 = Board([2, 0, 3, 4, 5, 1, 6, 8, 9, 10, 11, 7])
     valid_board_2 = Board([1, 6, 3, 4, 9, 10, 2, 8, 5, 11, 0, 7])
     valid_board_3 = Board([9, 10, 11, 0, 1, 2, 3, 4, 5, 6, 7, 8])
@@ -16,32 +22,38 @@ class SearchTests(unittest.TestCase):
         board = Board([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0])
         solution_node = best_first_search(board, heuristic_2)
         solution = get_solution_path(solution_node)
-        self.assertEqual(0, len(solution))
+        self.assertEqual(self.GOAL_STATE_HEURISTIC_VAL, solution_node.get_heuristic_value())
+        self.assertEqual(self.GOAL_STATE, solution_node.get_data()[self.BOARD_TUPLE_INDEX].getElements())
         self.assertEqual([], solution)
 
     def test_best_search_h2_valid_solution_1(self):
         solution_node = best_first_search(SearchTests.valid_board_1, heuristic_2)
         solution = get_solution_path(solution_node)
+        self.assertEqual(self.GOAL_STATE_HEURISTIC_VAL, solution_node.get_heuristic_value())
+        self.assertEqual(self.GOAL_STATE, solution_node.get_data()[self.BOARD_TUPLE_INDEX].getElements())
         self.assertGreater(len(solution), 0)
-        print len(solution)
 
     def test_best_search_h2_valid_solution_2(self):
         solution_node = best_first_search(SearchTests.valid_board_2, heuristic_2)
         solution = get_solution_path(solution_node)
+        self.assertEqual(self.GOAL_STATE_HEURISTIC_VAL, solution_node.get_heuristic_value())
+        self.assertEqual(self.GOAL_STATE, solution_node.get_data()[self.BOARD_TUPLE_INDEX].getElements())
         self.assertGreater(len(solution), 0)
-        print len(solution)
 
     def test_best_search_h2_valid_solution_3(self):
         solution_node = best_first_search(SearchTests.valid_board_3, heuristic_2)
         solution = get_solution_path(solution_node)
+        self.assertEqual(self.GOAL_STATE_HEURISTIC_VAL, solution_node.get_heuristic_value())
+        self.assertEqual(self.GOAL_STATE, solution_node.get_data()[self.BOARD_TUPLE_INDEX].getElements())
         self.assertGreater(len(solution), 0)
-        print len(solution)
 
     def test_best_search_h2_random_board(self):
         random_board = self.generate_random_board()
         random_board.printBoard()
         solution_node = best_first_search(random_board, heuristic_2)
         solution = get_solution_path(solution_node)
+        self.assertEqual(self.GOAL_STATE_HEURISTIC_VAL, solution_node.get_heuristic_value())
+        self.assertEqual(self.GOAL_STATE, solution_node.get_data()[self.BOARD_TUPLE_INDEX].getElements())
         self.assertGreater(len(solution), 0)
 
     # A* - Heuristic 2
@@ -49,40 +61,42 @@ class SearchTests(unittest.TestCase):
         board = Board([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0])
         solution_node = a_star(board, heuristic_2)
         solution = get_solution_path(solution_node)
-        self.assertEqual(0, len(solution))
+        self.assertEqual(self.GOAL_STATE_HEURISTIC_VAL, solution_node.get_heuristic_value())
+        self.assertEqual(self.GOAL_STATE, solution_node.get_data()[self.BOARD_TUPLE_INDEX].getElements())
         self.assertEqual([], solution)
 
     def test_a_star_h2_valid_solution_1(self):
         solution_node = a_star(SearchTests.valid_board_1, heuristic_2)
         solution = get_solution_path(solution_node)
+        self.assertEqual(self.GOAL_STATE_HEURISTIC_VAL, solution_node.get_heuristic_value())
+        self.assertEqual(self.GOAL_STATE, solution_node.get_data()[self.BOARD_TUPLE_INDEX].getElements())
         self.assertGreater(len(solution), 0)
-        print len(solution)
 
     def test_a_star_h2_valid_solution_2(self):
         solution_node = a_star(SearchTests.valid_board_2, heuristic_2)
         solution = get_solution_path(solution_node)
         self.assertGreater(len(solution), 0)
-        print len(solution)
 
     def test_a_star_h2_valid_solution_3(self):
         solution_node = a_star(SearchTests.valid_board_3, heuristic_2)
         solution = get_solution_path(solution_node)
+        self.assertEqual(self.GOAL_STATE_HEURISTIC_VAL, solution_node.get_heuristic_value())
+        self.assertEqual(self.GOAL_STATE, solution_node.get_data()[self.BOARD_TUPLE_INDEX].getElements())
         self.assertGreater(len(solution), 0)
-        print len(solution)
 
     def test_a_star_h2_random_board(self):
         random_board = self.generate_random_board()
         random_board.printBoard()
-        # Board([1, 8, 7, 2, 11, 6, 9, 10, 5, 4, 0, 3])
         solution_node = a_star(random_board, heuristic_2)
         solution = get_solution_path(solution_node)
+        self.assertEqual(self.GOAL_STATE_HEURISTIC_VAL, solution_node.get_heuristic_value())
+        self.assertEqual(self.GOAL_STATE, solution_node.get_data()[self.BOARD_TUPLE_INDEX].getElements())
         self.assertGreater(len(solution), 0)
 
     # A* vs BFS
     def test_a_star_vs_bfs_h2_random_board(self):
         random_board = self.generate_random_board()
         random_board.printBoard()
-        # Board([1, 8, 7, 2, 11, 6, 9, 10, 5, 4, 0, 3])
         solution_node_bfs = best_first_search(random_board, heuristic_2)
         solution_bfs = get_solution_path(solution_node_bfs)
 

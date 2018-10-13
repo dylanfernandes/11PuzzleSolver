@@ -68,11 +68,12 @@ class TreeNode:
     def __str__(self):
         return self.data.__str__()
 
-    # Comparision methods - based on heuristic_value
+    # Comparision methods - based on f(n) = g(n) + h(n)
     def __cmp__(self, other):
         return (self.get_algo_a_value() > other.get_algo_a_value()) \
                - (self.get_algo_a_value() < other.get_algo_a_value())
 
+    # Equality methods - based only on the data and heuristic value
     def __eq__(self, other):
         return self.get_data() == other.get_data() \
                and self.get_heuristic_value() == other.get_heuristic_value()
