@@ -34,10 +34,36 @@ def main():
 
 
 def heuristic_1(board_config, move=-1):
+    """
+    This heuristic does the following:
+    Computes the number of rows and columns that are complete before checking for elements in the appropriate corner 
+    and elements in the appropriate place.
+    """
     heuristic_value = 0
-    if move >= 0:
-        board_config.makeMove(move)
-    return ERRONEOUS_HEURISTIC
+    incomplete_row = 100
+    incomplete_column = 10
+    incomplete_corner = 5
+    incomplete_element = 1
+    solution = Board(GOAL_STATE)
+    corners = [0, solution.ROWSIZE - 1, solution.SIZE - solution.ROWSIZE, solution.SIZE - 1]
+
+    for index in range(0, solution.ROWSIZE):
+        if solution.getRow(index) != board_config.getRow(index):
+            heuristic_value = heuristic_value + incomplete_row
+
+    for index in range(0, solution.COLSIZE):
+         if solution.getColumn(index) != board_config.getColumn(index):
+            heuristic_value = heuristic_value + incomplete_column
+
+    for corner in corners:
+        if solution.elements[corner] != board_config.elements[corner]:
+            heuristic_value = heuristic_value + incomplete_corner
+
+    for index in range(0, solution.SIZE):
+        if solution.elements[index] != board_config.elements[index]:
+            heuristic_value = heuristic_value + incomplete_element
+
+    return heuristic_value
 
 
 def heuristic_2(board_config):
