@@ -120,4 +120,7 @@ class Board:
         index = self.elements.index(elVal)
         return ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'][index]
 
+    def __eq__(self, other):
+        return self.elements == other.getElements()
+
 

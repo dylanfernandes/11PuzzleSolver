@@ -75,5 +75,4 @@ class TreeNode:
 
     def __eq__(self, other):
         return self.get_data() == other.get_data() \
-               and self.get_algo_a_value() == other.get_algo_a_value() \
-               and self.get_parent() == other.get_parent()
+               and self.get_algo_a_value() == other.get_algo_a_value()
