@@ -189,6 +189,8 @@ def search_with_priority(board_config, heuristic_func, cost_per_move):
         # The third element of the tuple is a board configuration
         board_config = tree_node_to_check.get_data()[2]
 
+        # print tree_node_to_check.get_algo_a_value(), board_config.getElements()
+
         # Find better way to check goal state
         if tree_node_to_check.get_heuristic_value() == GOAL_STATE_HEURISTIC_VAL:
 
