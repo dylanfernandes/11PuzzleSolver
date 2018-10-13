@@ -1,2 +1,2 @@
-# 11PuzzleSolver
-11 puzzle solver
+# 11board_configSolver
+11 board_config solver

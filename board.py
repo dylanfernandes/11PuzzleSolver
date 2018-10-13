@@ -12,19 +12,6 @@ class Board:
             self.findSpace()
             self.determineMoves()
 
-    def __deepcopy__(self, memodict={}):
-        """
-        Returns a deep copy of the board
-        :param memodict: mandatory memo parameter
-        :return: a new board with the same piece arrangement as this one
-        """
-        newBoard = Board()
-        newBoard.elements = deepcopy(self.elements)
-        newBoard.findSpace()
-        newBoard.determineMoves()
-        return newBoard
-
-
     def findSpace(self):
         index = 0
         for i in self.elements:
