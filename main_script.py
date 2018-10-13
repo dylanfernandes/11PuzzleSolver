@@ -97,24 +97,33 @@ def heuristic_2(puzzle, move=-1):
 def depth_first_search(puzzle):
     open_list = [puzzle]
     closed_list = []
-    while not open_list:
+    while len(open_list) > 0:
+        print "In while loop"
         current = open_list.pop(0)
-        if current.printBoard() == GOAL_STATE:
+        if current.elements == GOAL_STATE:
             # get solution path to node
             print("SOLVED!")
             puzzle.printBoard()
-            print("Solution " + str(get_solution_path(tree_node_to_check)))
+            #print("Solution " + str(get_solution_path(tree_node_to_check)))
+            return True
         else:
             #create nodes for each valid moves
-            configs = []
-            moves = puzzle.determineMoves()
-            #for move in moves:
-                #configs.append()
+            configs = puzzle.getAllConfigs()
+            for config in configs:
+                if not(isInList(config, open_list) and isInList(config, closed_list)):
+                    open_list.insert(0, config)
             closed_list.append(current)
             #delete children already in open or closed
             #add other children at start of open
     print("Solution not found!")
     return None
+
+#Function takes puzzle as input and list of puzzles and checks if puzzle in list of puzzles
+def isInList(puzzle, pList):
+    for p in pList:
+        if p.elements == puzzle.elements:
+            return True
+    return False
 
 
 def best_first_search(puzzle, heuristic_func):
@@ -191,4 +200,4 @@ def get_solution_path(leaf_node):
 
 
 # Execute main here
-main()
+#main()
