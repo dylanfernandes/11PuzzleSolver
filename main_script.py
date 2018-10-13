@@ -175,7 +175,7 @@ def search_with_priority(board_config, heuristic_func, cost_per_move):
     heapq.heapify(open_list_pq)
 
     # Form first tree node and add it to queue to begin
-    search_tree = TreeNode((0, board_config.getPositionLetter(0), board_config))
+    search_tree = TreeNode((board_config.getPositionLetter(0), board_config))
     heuristic_value_root = heuristic_func(board_config)
     search_tree.set_heuristic_value(heuristic_value_root)
     heapq.heappush(open_list_pq, search_tree)
@@ -186,8 +186,8 @@ def search_with_priority(board_config, heuristic_func, cost_per_move):
         tree_node_to_check = heapq.heappop(open_list_pq)
         closed_list.append(tree_node_to_check)
 
-        # The third element of the tuple is a board configuration
-        board_config = tree_node_to_check.get_data()[2]
+        # The second element of the tuple is a board configuration
+        board_config = tree_node_to_check.get_data()[1]
 
         # print tree_node_to_check.get_algo_a_value(), board_config.getElements()
 
@@ -214,9 +214,8 @@ def search_with_priority(board_config, heuristic_func, cost_per_move):
             # iterate over both the moves and the board configurations (which should be the same length)
             for move, move_config in itertools.izip_longest(possible_moves, possible_board_configs):
                 heuristic_value = heuristic_func(move_config)
-                move_value = board_config.getElements()[move]
                 move_letter = board_config.getPositionLetter(move)
-                move_tuple = (move_value, move_letter, move_config)
+                move_tuple = (move_letter, move_config)
                 tree_node_to_check.create_and_add_child_with_cost(move_tuple, heuristic_value, cost_per_move)
 
             for child in tree_node_to_check.get_children():
@@ -235,7 +234,7 @@ def get_solution_path(leaf_node):
         curr_tree_node = leaf_node
         while curr_tree_node is not None:
             if curr_tree_node.get_parent() is not None:
-                solution_path.insert(0, curr_tree_node.get_data()[1])
+                solution_path.insert(0, curr_tree_node.get_data()[0])
             curr_tree_node = curr_tree_node.get_parent()
     return solution_path
 

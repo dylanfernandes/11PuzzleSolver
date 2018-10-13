@@ -9,7 +9,7 @@ class SearchTests(unittest.TestCase):
     # Constants
     GOAL_STATE_HEURISTIC_VAL = 0
     GOAL_STATE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]
-    BOARD_TUPLE_INDEX = 2
+    BOARD_TUPLE_INDEX = 1
 
     # Test variables
     valid_board_1 = Board([2, 0, 3, 4, 5, 1, 6, 8, 9, 10, 11, 7])
@@ -19,7 +19,7 @@ class SearchTests(unittest.TestCase):
 
     # Best First Search - Heuristic 2
     def test_best_search_h2_complete_board(self):
-        board = Board([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0])
+        board = Board(GOAL_STATE)
         solution_node = best_first_search(board, heuristic_2)
         solution = get_solution_path(solution_node)
         self.assertEqual(self.GOAL_STATE_HEURISTIC_VAL, solution_node.get_heuristic_value())
@@ -58,7 +58,7 @@ class SearchTests(unittest.TestCase):
 
     # A* - Heuristic 2
     def test_a_star_h2_complete_board(self):
-        board = Board([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0])
+        board = Board(GOAL_STATE)
         solution_node = a_star(board, heuristic_2)
         solution = get_solution_path(solution_node)
         self.assertEqual(self.GOAL_STATE_HEURISTIC_VAL, solution_node.get_heuristic_value())

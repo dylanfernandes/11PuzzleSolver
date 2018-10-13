@@ -8,9 +8,8 @@ class TreeNode:
         self.heuristic_value = 0
         self.total_cost_value = 0
 
-    # The data will be an (integer, character, board) tuple
-    # The integer will be the numerical value of the piece that has moved
-    # The character will be its corresponding letter position of the piece prior to it being moved
+    # The data will be an (character, board) tuple
+    # The character will be the corresponding letter position of the piece prior to it being moved
     # The board will be the board_config after the move has been made
     def set_data(self, data):
         self.data = data
