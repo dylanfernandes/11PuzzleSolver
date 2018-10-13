@@ -5,7 +5,8 @@ from SearchTree import TreeNode
 from board import Board
 
 # constants
-GOAL_STATE = 0  #[1,2,3,4,5,6,7,8,9,10,11,0]
+GOAL_STATE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]
+GOAL_STATE_HEURISTIC_VAL = 0
 COST_PER_MOVE = 1
 # The erroneous heuristic value is the largest possible int to guarantee it not being used (REMOVE WHEN NOT NEEDED)
 ERRONEOUS_HEURISTIC = sys.maxint
@@ -138,7 +139,7 @@ def depth_first_search(board_config):
     closed_list = []
     while not open_list:
         current = open_list.pop(0)
-        if current.printBoard() == GOAL_STATE:
+        if current.printBoard() == GOAL_STATE_HEURISTIC_VAL:
             # get solution path to node
             print("SOLVED!")
             board_config.printBoard()
@@ -187,10 +188,9 @@ def search_with_priority(board_config, heuristic_func, cost_per_move):
 
         # The third element of the tuple is a board configuration
         board_config = tree_node_to_check.get_data()[2]
-        print tree_node_to_check.get_heuristic_value(), board_config.getElements()
 
         # Find better way to check goal state
-        if tree_node_to_check.get_heuristic_value() == GOAL_STATE:
+        if tree_node_to_check.get_heuristic_value() == GOAL_STATE_HEURISTIC_VAL:
 
             # get solution path to node
             print("SOLVED!")
