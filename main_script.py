@@ -50,6 +50,9 @@ def heuristic_1(board_config, move=-1):
     for index in range(0, solution.ROWSIZE):
         if solution.getRow(index) != board_config.getRow(index):
             heuristic_value = heuristic_value + incomplete_row
+    #all elements in right spot
+    if heuristic_value == 0:
+        return heuristic_value
 
     for index in range(0, solution.COLSIZE):
          if solution.getColumn(index) != board_config.getColumn(index):
