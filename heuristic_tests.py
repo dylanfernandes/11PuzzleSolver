@@ -20,7 +20,11 @@ class HeuristicTests(unittest.TestCase):
         board = Board([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
         heuristic_val = heuristic_2(board)
         self.assertEqual(79, heuristic_val)
-
+    
+    def test_h1_complete_board(self):
+        board = Board([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0])
+        heuristic_val = heuristic_1(board)
+        self.assertEqual(0, heuristic_val)
 
 if __name__ == '__main__':
     unittest.main()
