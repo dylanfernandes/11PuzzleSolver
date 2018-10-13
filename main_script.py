@@ -175,7 +175,7 @@ def search_with_priority(board_config, heuristic_func, cost_per_move):
     heapq.heapify(open_list_pq)
 
     # Form first tree node and add it to queue to begin
-    search_tree = TreeNode((0, board_config.getElementLetter(0), board_config))
+    search_tree = TreeNode((0, board_config.getPositionLetter(0), board_config))
     heuristic_value_root = heuristic_func(board_config)
     search_tree.set_heuristic_value(heuristic_value_root)
     heapq.heappush(open_list_pq, search_tree)
@@ -212,9 +212,11 @@ def search_with_priority(board_config, heuristic_func, cost_per_move):
             possible_moves = board_config.determineMoves()
 
             # iterate over both the moves and the board configurations (which should be the same length)
-            for move, board_config in itertools.izip_longest(possible_moves, possible_board_configs):
-                heuristic_value = heuristic_func(board_config)
-                move_tuple = (move, board_config.getElementLetter(move), board_config)
+            for move, move_config in itertools.izip_longest(possible_moves, possible_board_configs):
+                heuristic_value = heuristic_func(move_config)
+                move_value = board_config.getElements()[move]
+                move_letter = board_config.getPositionLetter(move)
+                move_tuple = (move_value, move_letter, move_config)
                 tree_node_to_check.create_and_add_child_with_cost(move_tuple, heuristic_value, cost_per_move)
 
             for child in tree_node_to_check.get_children():

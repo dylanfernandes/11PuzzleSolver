@@ -96,10 +96,15 @@ class SearchTests(unittest.TestCase):
     # A* vs BFS
     def test_a_star_vs_bfs_h2_random_board(self):
         random_board = self.generate_random_board()
+        print 'BFS'
         random_board.printBoard()
+        print
         solution_node_bfs = best_first_search(random_board, heuristic_2)
         solution_bfs = get_solution_path(solution_node_bfs)
 
+        print '\nA*'
+        random_board.printBoard()
+        print
         solution_node_a_star = a_star(random_board, heuristic_2)
         solution_a_star = get_solution_path(solution_node_a_star)
         print len(solution_bfs), len(solution_a_star)
