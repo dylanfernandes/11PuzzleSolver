@@ -120,7 +120,15 @@ class Board:
     def getPositionLetter(location):
         return ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'][location]
 
+    # Equality
     def __eq__(self, other):
         return self.elements == other.getElements()
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    # To String
+    def __str__(self):
+        return str(self.elements)
 
 
