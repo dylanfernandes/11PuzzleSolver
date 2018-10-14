@@ -24,7 +24,7 @@ class SearchTests(unittest.TestCase):
         solution = get_solution_path(solution_node)
         self.assertEqual(self.GOAL_STATE_HEURISTIC_VAL, solution_node.get_heuristic_value())
         self.assertEqual(self.GOAL_STATE, solution_node.get_data()[self.BOARD_TUPLE_INDEX].getElements())
-        self.assertEqual([], solution)
+        self.assertEqual(len(solution), 1)
 
     def test_best_search_h1_valid_solution_1(self):
         solution_node = best_first_search(SearchTests.valid_board_1, heuristic_1)
@@ -63,7 +63,7 @@ class SearchTests(unittest.TestCase):
         solution = get_solution_path(solution_node)
         self.assertEqual(self.GOAL_STATE_HEURISTIC_VAL, solution_node.get_heuristic_value())
         self.assertEqual(self.GOAL_STATE, solution_node.get_data()[self.BOARD_TUPLE_INDEX].getElements())
-        self.assertEqual([], solution)
+        self.assertEqual(len(solution), 1)
 
     def test_a_star_h1_valid_solution_1(self):
         solution_node = a_star(SearchTests.valid_board_1, heuristic_1)
