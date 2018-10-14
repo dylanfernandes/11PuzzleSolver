@@ -1,11 +1,10 @@
+from copy import deepcopy
+
 class Board:
     SIZE = 12
     ROWSIZE = 4
     COLSIZE = 3
     SPACETOKEN = 0
-    moves = []
-    elements = []
-    spacePos = 0
 
     def __init__(self, config):
         self.elements = config
@@ -91,7 +90,7 @@ class Board:
         column = []
         index = num
         for i in range(0,self.COLSIZE): #3 values per column
-            column.insert(i, self.elements[index])
+            column.append(self.elements[index])
             index = index + self.ROWSIZE #next column starts 4 elements later
         return column
 
@@ -100,19 +99,36 @@ class Board:
         row = []
         start = num * self.ROWSIZE
         for i in range(0, self.ROWSIZE):
-            row.insert(i, self.elements[start+i])
+            row.append(self.elements[start+i])
         return row
 
     def getElementRow(self, elVal):
         ind = self.elements.index(elVal)
-        elRow = ind / (self.ROWSIZE - 1)
+        elRow = ind / (self.ROWSIZE)
         return self.getRow(elRow)
 
     def getElementColumn(self, elVal):
         ind = self.elements.index(elVal)
-        elCol = ind % (self.COLSIZE - 1)
+        elCol = ind % (self.ROWSIZE)
         return self.getColumn(elCol)
 
     def getElements(self):
         return self.elements
+
+    # Gets the symbol corresponding to the location on the board
+    @staticmethod
+    def getPositionLetter(location):
+        return ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'][location]
+
+    # Equality
+    def __eq__(self, other):
+        return self.elements == other.getElements()
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    # To String
+    def __str__(self):
+        return str(self.elements)
+
 

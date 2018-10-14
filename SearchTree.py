@@ -8,6 +8,9 @@ class TreeNode:
         self.heuristic_value = 0
         self.total_cost_value = 0
 
+    # The data will be an (character, board) tuple
+    # The character will be the corresponding letter position of the piece prior to it being moved
+    # The board will be the board_config after the move has been made
     def set_data(self, data):
         self.data = data
 
@@ -64,7 +67,15 @@ class TreeNode:
     def __str__(self):
         return self.data.__str__()
 
-    # Comparision methods - based on heuristic_value
+    # Comparision methods - based on f(n) = g(n) + h(n)
     def __cmp__(self, other):
         return (self.get_algo_a_value() > other.get_algo_a_value()) \
                - (self.get_algo_a_value() < other.get_algo_a_value())
+
+    # Equality methods - based only on the data and heuristic value
+    def __eq__(self, other):
+        return self.get_data() == other.get_data() \
+               and self.get_heuristic_value() == other.get_heuristic_value()
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
