@@ -44,6 +44,10 @@ def main():
     output_solution_in_file(a_star_h1_solution, 'puzzleAs-h1.txt')
     output_solution_in_file(bfs_h2_solution, 'puzzleBFS-h2.txt')
     output_solution_in_file(a_star_h2_solution, 'puzzleAs-h2.txt')
+    #dfs last since could take longest to complete
+    dfs_solution = depth_first_search(board_to_solve)
+    print 'See solution in puzzleDFS.txt.\n'
+    output_solution_in_file(dfs_solution, 'puzzleDFS.txt')
 
 
 # I/O Functions
@@ -258,13 +262,12 @@ def depth_first_search(board_config):
     while len(open_list) > 0:
         tree_node_to_check = open_list.pop(0)
         board_config = tree_node_to_check.get_data()[1]
-        board_config.printBoard()
+        #UNCOMMENT FOR CHECKING BOARD CONFIGS
+        #board_config.printBoard()
         if board_config.elements == GOAL_STATE:
             # get solution path to node
             print("SOLVED!")
-            board_config.printBoard()
-            #print("Solution " + str(get_solution_path(tree_node_to_check)))
-            return True
+            return tree_node_to_check
         else:
             #create nodes for each valid moves
             configs = board_config.getAllConfigs()
