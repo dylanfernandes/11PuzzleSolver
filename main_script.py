@@ -27,6 +27,12 @@ def main():
         board_to_solve = input_board()
 
     # Perform all of the searches
+    bfs_h1_solution = best_first_search(board_to_solve, heuristic_1)
+    print 'See solution in puzzleBFS-h1.txt.\n'
+
+    a_star_h1_solution = a_star(board_to_solve, heuristic_1)
+    print 'See solution in puzzleAs-h1.txt.\n'
+
     bfs_h2_solution = best_first_search(board_to_solve, heuristic_2)
     print 'See solution in puzzleBFS-h2.txt.\n'
 
@@ -34,6 +40,8 @@ def main():
     print 'See solution in puzzleAs-h2.txt.\n'
 
     # Generate the output files
+    output_solution_in_file(bfs_h1_solution, 'puzzleBFS-h1.txt')
+    output_solution_in_file(a_star_h1_solution, 'puzzleAs-h1.txt')
     output_solution_in_file(bfs_h2_solution, 'puzzleBFS-h2.txt')
     output_solution_in_file(a_star_h2_solution, 'puzzleAs-h2.txt')
 
@@ -113,10 +121,39 @@ def output_solution_in_file(leaf_node=None, file_name='output.txt'):
 # Heuristics and search functions
 
 def heuristic_1(board_config, move=-1):
+    """
+    This heuristic does the following:
+    Computes the number of rows and columns that are complete before checking for elements in the appropriate corner 
+    and elements in the appropriate place.
+    """
     heuristic_value = 0
-    if move >= 0:
-        board_config.makeMove(move)
-    return ERRONEOUS_HEURISTIC
+    incomplete_row = 100
+    incomplete_column = 10
+    incomplete_corner = 5
+    incomplete_element = 1
+    solution = Board(GOAL_STATE)
+    corners = [0, solution.ROWSIZE - 1, solution.SIZE - solution.ROWSIZE, solution.SIZE - 1]
+    #COLSIZE indicates number of rows on board
+    for index in range(0, solution.COLSIZE): 
+        if solution.getRow(index) != board_config.getRow(index):
+            heuristic_value = heuristic_value + incomplete_row
+    #all elements in right spot
+    if heuristic_value == 0:
+        return heuristic_value
+    #ROWSIZE indicates number of columns on board
+    for index in range(0, solution.ROWSIZE):
+         if solution.getColumn(index) != board_config.getColumn(index):
+            heuristic_value = heuristic_value + incomplete_column
+
+    for corner in corners:
+        if solution.elements[corner] != board_config.elements[corner]:
+            heuristic_value = heuristic_value + incomplete_corner
+
+    for index in range(0, solution.SIZE):
+        if solution.elements[index] != board_config.elements[index]:
+            heuristic_value = heuristic_value + incomplete_element
+
+    return heuristic_value
 
 
 def heuristic_2(board_config):
