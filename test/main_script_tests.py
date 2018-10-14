@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, '../')
 import unittest
 from main_script import *
 from board import Board
