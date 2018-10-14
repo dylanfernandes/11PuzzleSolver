@@ -44,6 +44,10 @@ def main():
     output_solution_in_file(a_star_h1_solution, 'puzzleAs-h1.txt')
     output_solution_in_file(bfs_h2_solution, 'puzzleBFS-h2.txt')
     output_solution_in_file(a_star_h2_solution, 'puzzleAs-h2.txt')
+    #dfs last since could take longest to complete
+    dfs_solution = depth_first_search(board_to_solve)
+    print 'See solution in puzzleDFS.txt.\n'
+    output_solution_in_file(dfs_solution, 'puzzleDFS.txt')
 
 
 # I/O Functions
@@ -251,27 +255,44 @@ def heuristic_2(board_config):
 
 
 def depth_first_search(board_config):
-    open_list = [board_config]
+    open_list = []
     closed_list = []
-    while not open_list:
-        current = open_list.pop(0)
-        if current.printBoard() == GOAL_STATE_HEURISTIC_VAL:
+    search_tree = TreeNode((ROOT_LETTER, board_config))
+    open_list.append(search_tree)
+    while len(open_list) > 0:
+        tree_node_to_check = open_list.pop(0)
+        board_config = tree_node_to_check.get_data()[1]
+        #UNCOMMENT FOR CHECKING BOARD CONFIGS
+        #board_config.printBoard()
+        if board_config.elements == GOAL_STATE:
             # get solution path to node
             print("SOLVED!")
-            board_config.printBoard()
-            # print("Solution " + str(get_solution_path(tree_node_to_check)))
+            return tree_node_to_check
         else:
             #create nodes for each valid moves
-            configs = []
-            moves = board_config.determineMoves()
-            #for move in moves:
-                #configs.append()
-            closed_list.append(current)
-            #delete children already in open or closed
-            #add other children at start of open
+            configs = board_config.getAllConfigs()
+            possible_moves = board_config.determineMoves()
+            for move, config in zip(possible_moves, configs):
+                move_letter = board_config.getPositionLetter(move)
+                move_tuple = (move_letter, config)
+                tree_node_to_check.create_and_add_child(move_tuple)
+            #start inserting from child move with least priority
+            for child in reversed(tree_node_to_check.get_children()):
+                if not(is_node_in_node_list(child, open_list) or is_node_in_node_list(child, closed_list)):
+                    open_list.insert(0, child)
+            #ensure recent children with top priority are at the start of the open list
+            closed_list.append(tree_node_to_check)
     print("Solution not found!")
     return None
 
+def is_node_in_node_list(node, node_list):
+    node_board = node.get_data()[1].elements
+    for l_node in node_list:
+        l_node_board = l_node.get_data()[1].elements
+        if l_node_board == node_board:
+            return True
+    return False
+        
 
 def best_first_search(board_config, heuristic_func):
     return search_with_priority(board_config, heuristic_func, 0)
