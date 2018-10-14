@@ -36,5 +36,6 @@ class HeuristicTests(unittest.TestCase):
         heuristic_val = heuristic_1(board)
         self.assertEqual(334, heuristic_val)
 
+
 if __name__ == '__main__':
     unittest.main()
