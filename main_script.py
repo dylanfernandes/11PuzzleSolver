@@ -8,6 +8,7 @@ from board import Board
 GOAL_STATE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]
 GOAL_STATE_HEURISTIC_VAL = 0
 COST_PER_MOVE = 1
+ROOT_LETTER = '0'
 # The erroneous heuristic value is the largest possible int to guarantee it not being used (REMOVE WHEN NOT NEEDED)
 ERRONEOUS_HEURISTIC = sys.maxint
 
@@ -15,23 +16,101 @@ ERRONEOUS_HEURISTIC = sys.maxint
 
 
 def main():
-    """ Main code goes here"""
-    vals = [8, 1, 2, 3, 5, 4, 6, 7, 0, 9, 10, 11]
-    board = Board(vals)
-    # best_first_search(board, heuristic_2)
-    a_star(board, heuristic_2)
-    # print(board.determineMoves())
-    # board.printBoard()
-    # board.makeMove(2)
-    # print(board.determineMoves())
-    # board.printBoard()
-    # board.makeMove(2)
-    # board.printBoard()
+    """
+    Requests user input for the puzzle to solve and executes all of the searches for it.
+    Outputs results in output files.
+    """
 
-    # pass
+    # Input the board
+    board_to_solve = None
+    while board_to_solve is None:
+        board_to_solve = input_board()
 
-# Other methods
+    # Perform all of the searches
+    bfs_h2_solution = best_first_search(board_to_solve, heuristic_2)
+    print 'See solution in puzzleBFS-h2.txt.\n'
 
+    a_star_h2_solution = a_star(board_to_solve, heuristic_2)
+    print 'See solution in puzzleAs-h2.txt.\n'
+
+    # Generate the output files
+    output_solution_in_file(bfs_h2_solution, 'puzzleBFS-h2.txt')
+    output_solution_in_file(a_star_h2_solution, 'puzzleAs-h2.txt')
+
+
+# I/O Functions
+def input_board():
+    """
+    Allow the user to input a board configuration. Handles all incorrect cases and makes the user retry each time.
+    :return: the correctly entered board
+    """
+    board_size = Board.ROWSIZE * Board.COLSIZE
+    please_enter_nums_properly_msg = 'Please enter exactly ' + str(board_size) + ' unique numbers, starting at 0 and ' \
+                                                                                 'separated by spaces.\n'
+    board_config_str = raw_input('Enter the ' + str(board_size - 1) + '-puzzle to solve: ')
+    board_config_str_split = board_config_str.split(" ")
+
+    # Handle non-integer input
+    try:
+        # Converts the input string elements into integer elements
+        board_config = [int(s) for s in board_config_str_split]
+    except ValueError:
+        print 'Error: Invalid input. ', please_enter_nums_properly_msg
+        return None
+
+    # Handle incorrect board size
+    if len(board_config) < board_size:
+        print 'Error: Too few numbers input. ', please_enter_nums_properly_msg
+        return None
+    elif len(board_config) > board_size:
+        print 'Error: Too many numbers input. ', please_enter_nums_properly_msg
+        return None
+    else:
+
+        # Handle incorrect numbers and duplicates
+        for i, element in enumerate(board_config):
+            if element < 0 or element >= board_size:
+                print 'Error: Incorrect number entered: ', element, '. ', please_enter_nums_properly_msg
+                return None
+            elif board_config.index(element) != i:  # i.e. if there is duplicate element with a different index
+                print 'Error: Duplicate number entered: ', element, '. ', please_enter_nums_properly_msg
+                return None
+
+    return Board(board_config)
+
+
+# Traverse the tree up to the root from the leaf through its parents and put them in an array
+def get_solution_path(leaf_node=None):
+    solution_path = []
+
+    if leaf_node is None:
+        return []
+
+    if len(leaf_node.get_children()) == 0:
+        curr_tree_node = leaf_node
+        while curr_tree_node is not None:
+            solution_path.insert(0, curr_tree_node.get_data())
+            curr_tree_node = curr_tree_node.get_parent()
+    return solution_path
+
+
+def output_solution_in_file(leaf_node=None, file_name='output.txt'):
+    solution_path = get_solution_path(leaf_node)
+
+    output_file = open(file_name, 'w')
+
+    for solution in solution_path:
+        solution_string = ''
+        if isinstance(solution, tuple):
+            for item in solution:
+                solution_string += (str(item) + ' ')
+        output_file.write(solution_string + '\n')
+
+    output_file.close()
+
+
+
+# Heuristics and search functions
 
 def heuristic_1(board_config, move=-1):
     heuristic_value = 0
@@ -175,7 +254,7 @@ def search_with_priority(board_config, heuristic_func, cost_per_move):
     heapq.heapify(open_list_pq)
 
     # Form first tree node and add it to queue to begin
-    search_tree = TreeNode((board_config.getPositionLetter(0), board_config))
+    search_tree = TreeNode((ROOT_LETTER, board_config))
     heuristic_value_root = heuristic_func(board_config)
     search_tree.set_heuristic_value(heuristic_value_root)
     heapq.heappush(open_list_pq, search_tree)
@@ -196,8 +275,6 @@ def search_with_priority(board_config, heuristic_func, cost_per_move):
 
             # get solution path to node
             print("SOLVED!")
-            board_config.printBoard()
-            print("Solution " + str(get_solution_path(tree_node_to_check)))
 
             # clear open list to end loop
             while len(open_list_pq) > 0:
@@ -225,18 +302,6 @@ def search_with_priority(board_config, heuristic_func, cost_per_move):
             if len(open_list_pq) == 0:
                 print("Solution not found!")
                 return None
-
-
-# go up the parents and put them in array
-def get_solution_path(leaf_node):
-    solution_path = []
-    if len(leaf_node.get_children()) == 0:
-        curr_tree_node = leaf_node
-        while curr_tree_node is not None:
-            if curr_tree_node.get_parent() is not None:
-                solution_path.insert(0, curr_tree_node.get_data()[0])
-            curr_tree_node = curr_tree_node.get_parent()
-    return solution_path
 
 
 # Execute main here
