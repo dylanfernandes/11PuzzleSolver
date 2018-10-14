@@ -115,10 +115,10 @@ class Board:
     def getElements(self):
         return self.elements
 
-    # Gets the symbol corresponding to the input element value
-    def getElementLetter(self, elVal):
-        index = self.elements.index(elVal)
-        return ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'][index]
+    # Gets the symbol corresponding to the location on the board
+    @staticmethod
+    def getPositionLetter(location):
+        return ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'][location]
 
     def __eq__(self, other):
         return self.elements == other.getElements()
