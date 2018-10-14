@@ -27,6 +27,12 @@ def main():
         board_to_solve = input_board()
 
     # Perform all of the searches
+    bfs_h1_solution = best_first_search(board_to_solve, heuristic_1)
+    print 'See solution in puzzleBFS-h2.txt.\n'
+
+    a_star_h1_solution = a_star(board_to_solve, heuristic_1)
+    print 'See solution in puzzleAs-h2.txt.\n'
+
     bfs_h2_solution = best_first_search(board_to_solve, heuristic_2)
     print 'See solution in puzzleBFS-h2.txt.\n'
 
@@ -34,6 +40,8 @@ def main():
     print 'See solution in puzzleAs-h2.txt.\n'
 
     # Generate the output files
+    output_solution_in_file(bfs_h1_solution, 'puzzleBFS-h1.txt')
+    output_solution_in_file(a_star_h1_solution, 'puzzleAs-h1.txt')
     output_solution_in_file(bfs_h2_solution, 'puzzleBFS-h2.txt')
     output_solution_in_file(a_star_h2_solution, 'puzzleAs-h2.txt')
 
