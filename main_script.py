@@ -15,20 +15,61 @@ ERRONEOUS_HEURISTIC = sys.maxint
 
 
 def main():
-    """ Main code goes here"""
-    vals = [8, 1, 2, 3, 5, 4, 6, 7, 0, 9, 10, 11]
-    board = Board(vals)
-    # best_first_search(board, heuristic_2)
-    a_star(board, heuristic_2)
-    # print(board.determineMoves())
-    # board.printBoard()
-    # board.makeMove(2)
-    # print(board.determineMoves())
-    # board.printBoard()
-    # board.makeMove(2)
-    # board.printBoard()
+    """
 
-    # pass
+    :return:
+    """
+
+    # Input the board
+    board_to_solve = input_board()
+
+
+
+
+
+
+def input_board():
+    """
+    Allow the user to input a board configuration. Handles all incorrect cases and makes the user retry each time.
+    :return: the correctly entered board
+    """
+    board_size = Board.ROWSIZE * Board.COLSIZE
+    please_enter_nums_properly_msg = 'Please enter exactly ' + str(board_size) + ' unique numbers, starting at 0 and ' \
+                                                                                 'separated by spaces.\n'
+    board_config = []
+    input_valid = False
+    while not input_valid:
+
+        board_config_str = raw_input('Enter the ' + str(board_size - 1) + '-puzzle to solve: ')
+        board_config_str_split = board_config_str.split(" ")
+
+        # Handle non-integer input
+        try:
+            board_config = [int(s) for s in board_config_str_split]
+        except ValueError:
+            print 'Error: Invalid input. ', please_enter_nums_properly_msg
+            continue
+
+        # Handle incorrect board size
+        if len(board_config) < board_size:
+            print 'Error: Too few numbers input. ', please_enter_nums_properly_msg
+        elif len(board_config) > board_size:
+            print 'Error: Too many numbers input. ', please_enter_nums_properly_msg
+        else:
+
+            # Handle incorrect numbers and duplicates
+            input_valid = True  # So far the input seems valid as it is the correct size...
+            for i, element in enumerate(board_config):
+                if element < 0 or element >= board_size:
+                    print 'Error: Incorrect number entered: ', element, '. ', please_enter_nums_properly_msg
+                    input_valid = False  # ...but here it is not a valid number, so we repeat the loop
+                    break
+                elif board_config.index(element) != i:  # i.e. if there is duplicate element with a different index
+                    print 'Error: Duplicate number entered: ', element, '. ', please_enter_nums_properly_msg
+                    input_valid = False  # ...but here it is a duplicate, so we repeat the loop
+                    break
+
+    return Board(board_config)
 
 # Other methods
 
