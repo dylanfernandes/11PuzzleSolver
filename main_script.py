@@ -264,13 +264,17 @@ def depth_first_search(board_config):
             return True
         else:
             #create nodes for each valid moves
-            configs = puzzle.getAllConfigs()
+            configs = current.getAllConfigs()
+            child_list = []
             for config in configs:
+                #delete children already in open or closed
+                #add other children at start of open
                 if not(isInList(config, open_list) or isInList(config, closed_list)):
-                    open_list.insert(0, config)
+                    #append is used to keep children priority
+                    child_list.append(config)
+            #ensure recent children with top priority are at the start of the open list
+            open_list = child_list + open_list 
             closed_list.append(current)
-            #delete children already in open or closed
-            #add other children at start of open
     print("Solution not found!")
     return None
 
