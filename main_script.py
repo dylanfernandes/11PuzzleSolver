@@ -133,21 +133,23 @@ def heuristic_1(board_config, move=-1):
     Computes the number of rows and columns that are complete before checking for elements in the appropriate corner 
     and elements in the appropriate place.
     """
-    incomplete_row = 100
-    incomplete_column = 10
-    incomplete_corner = 5
-    incomplete_element = 1
-    if len(H1_MODIFIER) != 4:
-        row_value = 0
-        col_value = 0
-        corn_value = 0
-        el_value = 0
-    else:
-        row_value = H1_MODIFIER[0]
-        col_value = H1_MODIFIER[1]
-        corn_value = H1_MODIFIER[2]
-        el_value = H1_MODIFIER[3]
+    row_value = 0
+    col_value = 0
+    corn_value = 0
+    el_value = 0
 
+    if len(H1_MODIFIER) != 4:
+        incomplete_row = 100
+        incomplete_column = 10
+        incomplete_corner = 5
+        incomplete_element = 1
+    else:
+        incomplete_row = H1_MODIFIER[0]
+        incomplete_column = H1_MODIFIER[1]
+        incomplete_corner = H1_MODIFIER[2]
+        incomplete_element = H1_MODIFIER[3]
+
+    print "ROW VALUE: " + `row_value`
     solution = Board(GOAL_STATE)
     corners = [0, solution.ROWSIZE - 1, solution.SIZE - solution.ROWSIZE, solution.SIZE - 1]
     #COLSIZE indicates number of rows on board
