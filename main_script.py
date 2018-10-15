@@ -47,7 +47,7 @@ def main():
     #dfs last since could take longest to complete
     dfs_solution = depth_first_search(board_to_solve)
     print 'See solution in puzzleDFS.txt.\n'
-    output_solution_in_file(dfs_solution, 'puzzleDFS.txt')
+    output_solution_in_file(dfs_solution, './solutions/puzzleDFS.txt')
 
 
 # I/O Functions
