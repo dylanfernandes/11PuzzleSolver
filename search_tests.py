@@ -15,7 +15,7 @@ class SearchTests(unittest.TestCase):
     valid_board_1 = Board([2, 0, 3, 4, 5, 1, 6, 8, 9, 10, 11, 7])
     valid_board_2 = Board([1, 6, 3, 4, 9, 10, 2, 8, 5, 11, 0, 7])
     valid_board_3 = Board([9, 10, 11, 0, 1, 2, 3, 4, 5, 6, 7, 8])
-    board_size = Board.ROWSIZE * Board.COLSIZE
+    board_size = Board.DEF_ROW_SIZE * Board.DEF_COL_SIZE
 
     # Best First Search - Heuristic 1
     def test_best_search_h1_complete_board(self):

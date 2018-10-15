@@ -52,7 +52,7 @@ def input_board():
     Allow the user to input a board configuration. Handles all incorrect cases and makes the user retry each time.
     :return: the correctly entered board
     """
-    board_size = Board.ROWSIZE * Board.COLSIZE
+    board_size = Board.getDefSize()
     please_enter_nums_properly_msg = 'Please enter exactly ' + str(board_size) + ' unique numbers, starting at 0 and ' \
                                                                                  'separated by spaces.\n'
     board_config_str = raw_input('Enter the ' + str(board_size - 1) + '-puzzle to solve: ')
@@ -132,16 +132,16 @@ def heuristic_1(board_config, move=-1):
     incomplete_corner = 5
     incomplete_element = 1
     solution = Board(GOAL_STATE)
-    corners = [0, solution.ROWSIZE - 1, solution.SIZE - solution.ROWSIZE, solution.SIZE - 1]
-    #COLSIZE indicates number of rows on board
-    for index in range(0, solution.COLSIZE): 
+    corners = [0, solution.getRowSize() - 1, solution.getSize() - solution.getRowSize(), solution.getSize() - 1]
+    #col_size indicates number of rows on board
+    for index in range(0, solution.col_size):
         if solution.getRow(index) != board_config.getRow(index):
             heuristic_value = heuristic_value + incomplete_row
     #all elements in right spot
     if heuristic_value == 0:
         return heuristic_value
-    #ROWSIZE indicates number of columns on board
-    for index in range(0, solution.ROWSIZE):
+    #row_size indicates number of columns on board
+    for index in range(0, solution.getRowSize()):
          if solution.getColumn(index) != board_config.getColumn(index):
             heuristic_value = heuristic_value + incomplete_column
 
@@ -149,7 +149,7 @@ def heuristic_1(board_config, move=-1):
         if solution.elements[corner] != board_config.elements[corner]:
             heuristic_value = heuristic_value + incomplete_corner
 
-    for index in range(0, solution.SIZE):
+    for index in range(0, solution.getSize()):
         if solution.elements[index] != board_config.elements[index]:
             heuristic_value = heuristic_value + incomplete_element
 
@@ -191,8 +191,8 @@ def heuristic_2(board_config):
             element = zero_equiv_value
 
         # Check the piece's location - check it against its intended row and column indices
-        correct_row_index = (element - 1) % board_config.ROWSIZE
-        correct_col_index = int((element - 1) / board_config.ROWSIZE)
+        correct_row_index = (element - 1) % board_config.getRowSize()
+        correct_col_index = int((element - 1) / board_config.getRowSize())
 
         if element_row_index != correct_row_index:
             heuristic_value += points_incorrect_row_column
@@ -235,7 +235,7 @@ def heuristic_2(board_config):
             if above_element == 0:
                 above_element = zero_equiv_value
 
-            if above_element != element - board_config.ROWSIZE:
+            if above_element != element - board_config.getRowSize():
                 heuristic_value += points_bad_adjacent_element
 
         if below_index < len(element_col):
@@ -244,7 +244,7 @@ def heuristic_2(board_config):
             if below_element == 0:
                 below_element = zero_equiv_value
 
-            if below_element != element + board_config.ROWSIZE:
+            if below_element != element + board_config.getRowSize():
                 heuristic_value += points_bad_adjacent_element
 
     return heuristic_value

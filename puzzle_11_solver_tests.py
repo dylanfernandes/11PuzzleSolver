@@ -5,7 +5,7 @@ from main_script import *
 
 class Puzzle11SolverTests(unittest.TestCase):
 
-    board_size = Board.ROWSIZE * Board.COLSIZE
+    board_size = Board.row_size * Board.col_size
 
     # Input tests
     def test_correct_input(self):
