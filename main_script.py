@@ -9,6 +9,9 @@ GOAL_STATE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]
 GOAL_STATE_HEURISTIC_VAL = 0
 COST_PER_MOVE = 1
 ROOT_LETTER = '0'
+H1_MODIFIER = []
+H2_MODIFIER = []
+
 # The erroneous heuristic value is the largest possible int to guarantee it not being used (REMOVE WHEN NOT NEEDED)
 ERRONEOUS_HEURISTIC = sys.maxint
 
@@ -134,10 +137,17 @@ def heuristic_1(board_config, move=-1):
     incomplete_column = 10
     incomplete_corner = 5
     incomplete_element = 1
-    el_value = 0
-    col_value = 0
-    row_value = 0
-    corn_value = 0
+    if len(H1_MODIFIER) != 4:
+        row_value = 0
+        col_value = 0
+        corn_value = 0
+        el_value = 0
+    else:
+        row_value = H1_MODIFIER[0]
+        col_value = H1_MODIFIER[1]
+        corn_value = H1_MODIFIER[2]
+        el_value = H1_MODIFIER[3]
+
     solution = Board(GOAL_STATE)
     corners = [0, solution.ROWSIZE - 1, solution.SIZE - solution.ROWSIZE, solution.SIZE - 1]
     #COLSIZE indicates number of rows on board
@@ -183,8 +193,12 @@ def heuristic_2(board_config):
     :return: the heuristic value, which is the total number of pieces that are not in their correct positions.
     """
     heuristic_value = 0
-    points_bad_adjacent_element = 1
-    points_incorrect_row_column = 5
+    if len(H2_MODIFIER) != 2:
+        points_bad_adjacent_element = 1
+        points_incorrect_row_column = 5
+    else:
+        points_bad_adjacent_element = H2_MODIFIER[0]
+        points_incorrect_row_column = H2_MODIFIER[1]
 
     # This number will be used to represent the empty space (element 0)
     # in order for the comparisons to still make sense for it
@@ -274,7 +288,7 @@ def depth_first_search(board_config):
         #board_config.printBoard()
         if board_config.elements == GOAL_STATE:
             # get solution path to node
-            print("SOLVED!")
+            #print("SOLVED!")
             return tree_node_to_check
         else:
             #create nodes for each valid moves
@@ -340,7 +354,7 @@ def search_with_priority(board_config, heuristic_func, cost_per_move):
         if tree_node_to_check.get_heuristic_value() == GOAL_STATE_HEURISTIC_VAL:
 
             # get solution path to node
-            print("SOLVED!")
+            #print("SOLVED!")
 
             # clear open list to end loop
             while len(open_list_pq) > 0:
