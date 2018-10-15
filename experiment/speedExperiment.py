@@ -23,7 +23,7 @@ def test(heuristics, boards, board_names):
             boad_name_index = 0
             for board in boards:
                 start = time.time()
-                search_function(board, heuristic)
+                sol = search_function(board, heuristic)
                 end = time.time()
                 print `board_names[boad_name_index]` + "\nTime:  " +  `end - start`
                 print "-------------------------"
