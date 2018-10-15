@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, '../')
 import unittest
 import main_script
 from main_script import *

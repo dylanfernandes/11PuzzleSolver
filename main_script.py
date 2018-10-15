@@ -40,14 +40,14 @@ def main():
     print 'See solution in puzzleAs-h2.txt.\n'
 
     # Generate the output files
-    output_solution_in_file(bfs_h1_solution, 'puzzleBFS-h1.txt')
-    output_solution_in_file(a_star_h1_solution, 'puzzleAs-h1.txt')
-    output_solution_in_file(bfs_h2_solution, 'puzzleBFS-h2.txt')
-    output_solution_in_file(a_star_h2_solution, 'puzzleAs-h2.txt')
+    output_solution_in_file(bfs_h1_solution, './solutions/puzzleBFS-h1.txt')
+    output_solution_in_file(a_star_h1_solution, './solutions/puzzleAs-h1.txt')
+    output_solution_in_file(bfs_h2_solution, './solutions/puzzleBFS-h2.txt')
+    output_solution_in_file(a_star_h2_solution, './solutions/puzzleAs-h2.txt')
     #dfs last since could take longest to complete
     dfs_solution = depth_first_search(board_to_solve)
     print 'See solution in puzzleDFS.txt.\n'
-    output_solution_in_file(dfs_solution, 'puzzleDFS.txt')
+    output_solution_in_file(dfs_solution, './solutions/puzzleDFS.txt')
 
 
 # I/O Functions

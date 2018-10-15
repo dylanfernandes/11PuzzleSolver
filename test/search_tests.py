@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, '../')
 import unittest
 import random
 from main_script import *
