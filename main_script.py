@@ -130,34 +130,42 @@ def heuristic_1(board_config, move=-1):
     Computes the number of rows and columns that are complete before checking for elements in the appropriate corner 
     and elements in the appropriate place.
     """
-    heuristic_value = 0
     incomplete_row = 100
     incomplete_column = 10
     incomplete_corner = 5
     incomplete_element = 1
+    el_value = 0
+    col_value = 0
+    row_value = 0
+    corn_value = 0
     solution = Board(GOAL_STATE)
     corners = [0, solution.ROWSIZE - 1, solution.SIZE - solution.ROWSIZE, solution.SIZE - 1]
     #COLSIZE indicates number of rows on board
     for index in range(0, solution.COLSIZE): 
         if solution.getRow(index) != board_config.getRow(index):
-            heuristic_value = heuristic_value + incomplete_row
+            row_value = row_value + incomplete_row
     #all elements in right spot
-    if heuristic_value == 0:
-        return heuristic_value
+    if row_value == 0:
+        return row_value
     #ROWSIZE indicates number of columns on board
     for index in range(0, solution.ROWSIZE):
          if solution.getColumn(index) != board_config.getColumn(index):
-            heuristic_value = heuristic_value + incomplete_column
+            col_value = col_value + incomplete_column
 
     for corner in corners:
         if solution.elements[corner] != board_config.elements[corner]:
-            heuristic_value = heuristic_value + incomplete_corner
+            corn_value = corn_value + incomplete_corner
 
     for index in range(0, solution.SIZE):
         if solution.elements[index] != board_config.elements[index]:
-            heuristic_value = heuristic_value + incomplete_element
+            el_value = el_value + incomplete_element
+    #only a couple elements are out of place, close to solution
+    if el_value <= solution.COLSIZE:
+        return el_value + corn_value
+    if el_value <= solution.ROWSIZE:
+        return el_value + corn_value + col_value
 
-    return heuristic_value
+    return el_value + corn_value + col_value + row_value
 
 
 def heuristic_2(board_config):
