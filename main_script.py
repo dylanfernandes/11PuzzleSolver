@@ -149,7 +149,7 @@ def heuristic_1(board_config, move=-1):
         incomplete_corner = H1_MODIFIER[2]
         incomplete_element = H1_MODIFIER[3]
 
-    print "ROW VALUE: " + `row_value`
+    #print "ROW VALUE: " + `row_value`
     solution = Board(GOAL_STATE)
     corners = [0, solution.ROWSIZE - 1, solution.SIZE - solution.ROWSIZE, solution.SIZE - 1]
     #COLSIZE indicates number of rows on board
